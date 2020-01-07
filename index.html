@@ -9,7 +9,7 @@
     *{
         border: 1px solid black;  
     }
-    .wordContainer, .wrongGuesses{
+    .wordContainer, .wrongLetters{
         font-size: 100pt;
         display: flex;
         letter-spacing: 10pt;
@@ -24,11 +24,11 @@
         <div><a href="">Give Up</a></div>
     </nav>
     <br>
-    <div class="picture">
+    <div class="messageBox">
         <!-- add picture here -->
     </div>
     <br>
-    <div class="animal language">
+    <div class="hint animal language">
         <!-- add the animal name or language here -->
     </div>
     <br>
@@ -44,8 +44,9 @@
 
 
 <script>
-console.log("start")
-var geusses = [];
+console.log("start");
+var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-','ä','ö','ü'];
+var guesses = [];
 var correctWord = [];
 
 var defaultWords = ['one', 'two', 'three'];
@@ -82,18 +83,39 @@ for (var i = 0; i < correctWord.length; i++) {
     emptyWord.appendChild(letterDiv);
 };
 
-//replaces the div with the correct letter or moves the key press into the div
 console.log("replaces div for correct letter");
 document.onkeyup = function(event) {
-    guess = document.querySelectorAll("." + event.key);  
-    if (guess.length === 0) 
-    {
+//selects all of the divs with the matching class
+    guess = document.querySelectorAll("." + event.key); 
+
+//prevents the same letter from being guessed twice
+    var message = document.querySelector(".messageBox");
+    message.innerHTML = "";
+
+    if(alphabet.indexOf(event.key) === -1) {    
+        message.insertAdjacentText("afterbegin", event.key + " has already been guessed or cannot be used. Please make another selection.");
+        return;
+    } else {
+//changes the allowable guesses so the same letter cannot be guessed twice
+        function replaceGuess () {
+            abc = alphabet.toString();
+            abc = abc.replace(event.key,"");
+            abc = abc.replace(",,",",");
+            alphabet = abc.split(",");
+            guesses.push(event.key);
+        };
+        replaceGuess();
+    };
+
+//displays the wrong guesses in a seperate div
+    if (guess.length === 0) {
         var badGuess = document.querySelector(".wrongLetters");
         var letterDiv = document.createElement("div");
         letterDiv.classList.add("badGuess");
         letterDiv.insertAdjacentText("afterbegin", event.key);
         badGuess.appendChild(letterDiv);
     } else {
+//changes the _ for the correct letter
         for (var i = 0; i < guess.length; i++) {
             guess[i].replaceWith(event.key);
         };
