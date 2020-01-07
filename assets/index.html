@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Word Guess Game</title>
+</head>
+<body>
+    <nav>
+        <div><href="">Home</href></div>
+        <div><href="">Add Words</href></div>
+        <div><href="">Hint</href></div>
+        <div><href="">Give Up</href></div>
+    </nav>
+    <br>
+    <div class="picture"></div>
+    <br>
+    <div class="wordContainer"></div>
+    <br>
+    
+
+</body>
+
+<script type="text/javascript">
+
+var wordBox = [];
+var gameWords;
+
+if (wordBox.length = 0) 
+{
+    gameWords = defaultWords;
+} else {
+    gameWords = wordBox;
+};
+
+
+var defaultWords = ['one', 'two', 'three'];
+randomPick = Math.floor(Math.random()*gameWords.length);
+correctWord = defaultWords[randomPick];
+console.log(correctWord);
+console.log(correctWord.length);
+console.log(correctWord.split(""));
+
+</script>
+
+</html>
