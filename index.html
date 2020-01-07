@@ -1,2 +1,83 @@
-<!doctype HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Word Guess Game</title>
+    <style>
+    *{
+        border: 1px solid black;  
+    }
+    .wordContainer{
+        font-size: 100pt;
+        display: flex;
+        letter-spacing: 10pt;
+    }
+    </style>
+</head>
+<body>
+    <nav>
+        <div><href="">Home</href></div>
+        <div><href="">Add Words</href></div>
+        <div><href="">Hint</href></div>
+        <div><href="">Give Up</href></div>
+    </nav>
+    <br>
+    <div class="picture">
+        <!-- add picture here -->
+    </div>
+    <br>
+    <div class="animal language">
+        <!-- add the animal name or language here -->
+    </div>
+    <br>
+    <div class="wordContainer">
+        <!-- add a div for each letter here -->
+    </div>
+    <br>
+    <div class="wrongLetters">
+        <!-- add all of the wrong letters here -->
+    </div>
+    
+
+</body>
+
+<script type="text/javascript">
+var geusses = [];
+var correctWord = [];
+
+var defaultWords = ['one', 'two', 'three'];
+console.log(defaultWords);
+var wordBox = [];
+console.log(wordBox.length);
+var gameWords = [];
+
+//checks to see if the player added words to the game 
+if (wordBox.length === 0) 
+{
+    gameWords = defaultWords;
+} else {
+    gameWords = wordBox;
+};
+console.log(gameWords);
+
+//randomly chooses a word from the list
+randomPick = Math.floor(Math.random()*gameWords.length);
+console.log(randomPick);
+correctWord = gameWords[randomPick];
+console.log(correctWord);
+correctWord.split("");
+
+// //creates a div for each letter in the random word
+for (var i = 0; i < correctWord.length; i++) {
+    var emptyWord = document.querySelector(".wordContainer");
+    var letterDiv = document.createElement("div");
+    letterDiv.classList.add(correctWord[i]);
+    letterDiv.insertAdjacentText("afterbegin", "_");
+    emptyWord.appendChild(letterDiv);
+    };
+    
+</script>
+
+</html>
