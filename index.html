@@ -44,51 +44,107 @@
 
 
 <script>
+//defines the initial components of the game
 console.log("start");
 var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-','ä','ö','ü'];
 var guesses = [];
-var correctWord = [];
 
-var defaultWords = ['one', 'two', 'three'];
-console.log(defaultWords);
+//defines the words used and hints
+var animalObjects = [
+    {
+        name: 'Bee',
+        sound: ["bzz", "bun", "sum", "vzz", "boong"],
+        language: ["English", "Japanese", "German", "Turkish", "Korean"]
+    },
+    {
+        name: 'Bird',
+        sound: ["Tweet", "Cui-Cui", "Pio-Pio", "Chun-Chun", "Pip-Pip", "Tjiep", "Jick-Jick", "TsiouTsiou", "Chip"],
+        language: ["English", "French", "Spanish", "Japanese", "Swedish", "Dutch", "Turkish", "Greek", "Italian"]
+    },
+    {
+        name: 'Cat',
+        sound: ["Meow", "Mjau", "Myau", "Miau", "Miao", "Meo", "Miaou", "Yaong", "Nyan", "Nau"],
+        language: ["English", "Swedish", "Russian", "Spanish", "Italian", "Vietnamese", "French", "Korean", "Japanese", "Estonian"]	
+    },
+    {
+        name: 'Cockerel',
+        sound: ["Cock-a-doodle-doo", "Kikiriki", "Cocorico", "Ko-ki-oh", "Kok-e-kok-ko"],
+        language: ["English", "Spanish", "French", "Korean", "Japanese"]
+    },
+    {
+        name: 'Dog',
+        sound: ["Woof", "Gav", "Waouh", "Guau", "Blaf", "Wan", "Voff", "Ham", "Bau", "Wong", "Hev", "Haap", "Guk", "Meong"],
+        language: ["English", "Russian", "French", "Spanish", "Dutch", "Japanese", "Icelandic", "Romanian", "Italian", "Cantonese", "Turkish", "Persian", "Indonesian", "Korean"]
+    },
+    {
+        name: 'Duck',
+        sound: ["Quack", "Rap", "Mac", "Hap", "Vak", "Coin", "Praaks"],
+        language: ["English", "Danish", "Romanian", "Hungarian", "Turkish", "French", "Estonian"]
+    },
+    {
+        name: 'Frog',
+        sound: ["Ribbit", "Cra Cra", "Vrak", "Kwaak", "Kum kum", "Gae-Gool", "Op op", "GuoGuo", "Brekeke", "Kerokero"],
+        language: ["English", "Italian", "Turkish", "German", "Polish", "Korean", "Thai", "Chinese", "Hungarian", "Japanese"]
+    },
+    {
+        name: 'Horse',
+        sound: ["Neigh", "Vrinsk", "Hihiin", "Gnagg", "I-go-go", "I-haaa", "Nyihaha"],
+        language: ["English", "Danish", "Japanese", "Swedish", "Russian", "Polish", "Hungarian"]
+    },
+    {
+        name: 'Mouse',
+        sound: ["Squeak", "Piep", "Pip-pip", "Squitt", "Chuu", "Zi", "Jjik", "Cin"],
+        language: ["English", "Dutch", "Swedish", "Italian", "Japanese", "Mandarian", "Korean", "Hungarian"]
+    },
+    {
+        name: 'Pig',
+        sound: ["Oink", "Hunk", "Buu", "Grunz", "Knor", "Noff"],
+        language: ["English", "Albanian", "Japanese", "German", "Dutch", "Sweedish"]
+    }];
+
+//allows the player to add new words
 var wordBox = [];
-console.log(wordBox.length);
-var gameWords = [];
+var gameWord = "";
 
-console.log("check wordBox");
-//checks to see if the player added words to the game 
-if (wordBox.length === 0) 
-{
-    gameWords = defaultWords;
+//checks to see if the player had added words to help with vocabulary or if the default words will be used.
+if(wordBox.length === 0) {
+    console.log('There are not any words added to the game. Default words will be used.');
+//selects the animal and hints from the animalObject
+    var randomAnimal = Math.floor(Math.random()*animalObjects.length);
+    var nameHint = animalObjects[randomAnimal].name;
+    var randomSound = Math.floor(Math.random()*animalObjects[randomAnimal].sound.length);
+    var defaultWord = animalObjects[randomAnimal].sound[randomSound];
+    var languageHint = animalObjects[randomAnimal].language[randomSound];
+
+    console.log('Selected Animal: ' + nameHint);
+    console.log('Language Hint: ' + languageHint);
+    console.log('Word to guess: ' + defaultWord);
+
+    var gameWord = defaultWord;
 } else {
-    gameWords = wordBox;
-};
-console.log(gameWords);
+    console.log('New words have been added. The new words will be used.')
 
-//randomly chooses a word from the list
-console.log("picks a word");
-randomPick = Math.floor(Math.random()*gameWords.length);
-console.log(randomPick);
-correctWord = gameWords[randomPick];
-console.log(correctWord);
-correctWord.split("");
+
+//********For future development I would like to add a section that allows users to add words they are learning for vocabulary review.
+
+    gameWord = wordBox;
+}
 
 // //creates a div for each letter in the random word
-console.log("creates a div for each letter");
-for (var i = 0; i < correctWord.length; i++) {
+console.log("Creates a div for each letter");
+for (var i = 0; i < gameWord.length; i++) {
     var emptyWord = document.querySelector(".wordContainer");
     var letterDiv = document.createElement("div");
-    letterDiv.classList.add(correctWord[i]);
+    letterDiv.classList.add(gameWord[i]);
     letterDiv.insertAdjacentText("afterbegin", "_");
     emptyWord.appendChild(letterDiv);
 };
 
-console.log("replaces div for correct letter");
+console.log("Replaces each div for the correct letter");
 document.onkeyup = function(event) {
-//selects all of the divs with the matching class
+//Selects all of the divs with the matching class
     guess = document.querySelectorAll("." + event.key); 
-
-//prevents the same letter from being guessed twice
+//Prevents the same letter from being guessed twice
     var message = document.querySelector(".messageBox");
     message.innerHTML = "";
 
@@ -96,7 +152,7 @@ document.onkeyup = function(event) {
         message.insertAdjacentText("afterbegin", event.key + " has already been guessed or cannot be used. Please make another selection.");
         return;
     } else {
-//changes the allowable guesses so the same letter cannot be guessed twice
+//Changes the allowable guesses so the same letter cannot be guessed twice
         function replaceGuess () {
             abc = alphabet.toString();
             abc = abc.replace(event.key,"");
@@ -107,7 +163,7 @@ document.onkeyup = function(event) {
         replaceGuess();
     };
 
-//displays the wrong guesses in a seperate div
+//Displays the wrong guesses in a seperate div
     if (guess.length === 0) {
         var badGuess = document.querySelector(".wrongLetters");
         var letterDiv = document.createElement("div");
@@ -115,12 +171,13 @@ document.onkeyup = function(event) {
         letterDiv.insertAdjacentText("afterbegin", event.key);
         badGuess.appendChild(letterDiv);
     } else {
-//changes the _ for the correct letter
+//Changes the _ for the correct letter
         for (var i = 0; i < guess.length; i++) {
             guess[i].replaceWith(event.key);
         };
     };
 };
+
 </script>
 </body>
 </html>
