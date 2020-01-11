@@ -13,3 +13,5 @@ Credit for the Images used goes to:
     Horse - Photo by George Hiles on Unsplash
     Mouse - Photo by Zdeněk Macháček on Unsplash
     Pig - Photo by Christopher Carson on Unsplash
+
+    Background - Image by Gordon Johnson from Pixabay 

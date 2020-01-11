@@ -7,11 +7,16 @@
     <title>Word Guess Game</title>
     <style>
     *{
-        border: 1px solid black;  
+        border: 1px solid black; 
+    }
+
+    body{
+        background-image: url("assets/images/hello.png");
+        background-size: 100%; 
     }
 
     img{
-        
+        height: 50%;
     }
     .wordContainer, .wrongLetters{
         font-size: 100pt;
@@ -39,17 +44,27 @@
     </div>
     <br>
     <div class="picture">
-        <!-- add the animal name or language here -->
-        <img src="assets/images/Bee.jpg" id="bee">
+        <!-- add pictures here -->
+        <img src="assets/images/Bee.jpg" id="Bee">
         <img src="assets/images/Bird.jpg" id="Bird">
         <img src="assets/images/Cat.jpg" id="Cat">
-        <img src="assets/images/Cockerel.jpg" id="cockerel">
-        <img src="assets/images/Dog.jpg" id="dog">
-        <img src="assets/images/Duck.jpg" id="duck">
-        <img src="assets/images/Frog.jpg" id="frog">
-        <img src="assets/images/Horse.jpg" id="horse">
-        <img src="assets/images/Mouse.jpg" id="mouse">
-        <img src="assets/images/Pig.jpg" id="pig">
+        <img src="assets/images/Cockerel.jpg" id="Cockerel">
+        <img src="assets/images/Dog.jpg" id="Dog">
+        <img src="assets/images/Duck.jpg" id="Duck">
+        <img src="assets/images/Frog.jpg" id="Frog">
+        <img src="assets/images/Horse.jpg" id="Horse">
+        <img src="assets/images/Mouse.jpg" id="Mouse">
+        <img src="assets/images/Pig.jpg" id="Pig">
+    </div>
+    <br>
+    <h3 class="question">What sound does a (animal) make in (langauge)?</h3>
+    <br>
+    <div class="buttons">
+        <button onclick="giveAnimalName()">Give animal name</button>
+        <button onclick="giveLanguageName()">Give language</button>
+        <button onclick="giveLetter()">Give letter</button>
+        <button>Play sound</button>
+        <button onclick="reload()">Play again</button>
     </div>
     <br>
     <div class="wordContainer">
@@ -59,20 +74,18 @@
     <div class="wrongLetters">
         <!-- add all of the wrong letters here -->
     </div>
-    <br>
-    <div>
-        <button class="button" onclick="gs()">dash</button> 
-    </div>
-
+ 
 
 
 <script>
-//defines the initial components of the game
+
 
 document.addEventListener("DOMContentLoaded", function(event) {
 console.log("start");
+//defines the initial components of the game
 var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-','ä','ö','ü'];
 var guesses = [];
+var remainingLetters = [];
 
 //defines the words used and hints
 var animalObjects = [
@@ -152,10 +165,14 @@ if(wordBox.length === 0) {
 
 //********For future development I would like to add a section that allows users to add words they are learning for vocabulary review.
 
-    gameWord = wordBox;
+    var gameWord = wordBox;
 };
 
-console.log("here: " + gameWord);
+remainingLetters = gameWord;
+console.log('remaining Letters: ' + remainingLetters);
+
+
+
 //creates a div for each letter in the random word
 console.log("Creates a div for each letter");
 for (var i = 0; i < gameWord.length; i++) {
@@ -187,6 +204,7 @@ document.onkeyup = function(event) {
     } else {
 //Changes the allowable guesses so the same letter cannot be guessed twice
         function replaceGuess () {
+            var abc = '';
             abc = alphabet.toString();
             abc = abc.replace(event.key,"");
             abc = abc.replace(",,",",");
@@ -207,14 +225,61 @@ document.onkeyup = function(event) {
 //Changes the _ for the correct letter
         for (var i = 0; i < guess.length; i++) {
             guess[i].replaceWith(event.key);
+//Removes the correct letter and lets you know the remaining letters
+            function lettersRemain() {
+                removeLetter = remainingLetters.toString();
+                removeLetter = removeLetter.replace("-","");
+                removeLetter = removeLetter.replace(event.key,"");
+                remainingLetters = removeLetter.split("");
+            }
+            lettersRemain();
         };
-    };
+        console.log('remaining letters: ' + remainingLetters);
+    }
 };
+
+//Gives the animal name
+giveAnimalName = function() {
+    var giveName = document.querySelector(".question");
+    if (giveName.classList.contains("addedLanguage") === true) {
+        giveName.innerHTML = "What sound does a " + nameHint + " make in "+ languageHint + "?"
+        giveName.classList.add("addedName");
+    } else {
+        giveName.innerHTML = "What sound does a " + nameHint + " make in (langauge)?"
+        giveName.classList.add("addedName");
+    }
+//removes the other pictures and adds the correct animal picture
+    var img = document.createElement("img");
+    img.src = "assets/images/" + nameHint + ".jpg";
+    var findPicture = document.querySelector(".picture");
+    findPicture.innerHTML = '';
+    findPicture.appendChild(img);
+};
+//Gives the language
+giveLanguageName = function() {
+    var giveLanguage = document.querySelector(".question");
+    if (giveLanguage.classList.contains("addedName") === true) {
+        giveLanguage.innerHTML = "What sound does a " + nameHint + " make in " + languageHint + "?"
+        giveLanguage.classList.add("addedLanguage");
+    } else {
+        giveLanguage.innerHTML = "What sound does a (animal) make in " + languageHint + "?"
+        giveLanguage.classList.add("addedLanguage");
+    }
+};
+//gives a letter
+giveLetter = function() {
+    var randomLetter = Math.floor(Math.random()*remainingLetters.length);
+    var letterGive = document.querySelector(".messageBox");
+    letterGive.innerHTML = "Try " + remainingLetters[randomLetter];
+}
+//Restarts the game
+reload = function() {
+    location.reload();
+}
 });
 
-addPicture = function() {
-    
-}
+
+
 
 </script>
 </body>
