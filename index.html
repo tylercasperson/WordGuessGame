@@ -39,12 +39,17 @@
     <div class="wrongLetters">
         <!-- add all of the wrong letters here -->
     </div>
-    
+    <br>
+    <div>
+        <button class="button" onclick="gs()">dash</button> 
+    </div>
 
 
 
 <script>
 //defines the initial components of the game
+
+document.addEventListener("DOMContentLoaded", function(event) {
 console.log("start");
 var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-','ä','ö','ü'];
 var guesses = [];
@@ -83,7 +88,7 @@ var animalObjects = [
     },
     {
         name: 'Frog',
-        sound: ["Ribbit", "Cra Cra", "Vrak", "Kwaak", "Kum kum", "Gae-Gool", "Op op", "GuoGuo", "Brekeke", "Kerokero"],
+        sound: ["Ribbit", "Cra-Cra", "Vrak", "Kwaak", "Kum-kum", "Gae-Gool", "OpOp", "GuoGuo", "Brekeke", "Kerokero"],
         language: ["English", "Italian", "Turkish", "German", "Polish", "Korean", "Thai", "Chinese", "Hungarian", "Japanese"]
     },
     {
@@ -104,7 +109,7 @@ var animalObjects = [
 
 //allows the player to add new words
 var wordBox = [];
-var gameWord = "";
+var gameWord = [];
 
 //checks to see if the player had added words to help with vocabulary or if the default words will be used.
 if(wordBox.length === 0) {
@@ -119,8 +124,8 @@ if(wordBox.length === 0) {
     console.log('Selected Animal: ' + nameHint);
     console.log('Language Hint: ' + languageHint);
     console.log('Word to guess: ' + defaultWord);
-
-    var gameWord = defaultWord;
+    var matchCase = defaultWord.toString().toLowerCase();
+    var gameWord = matchCase;
 } else {
     console.log('New words have been added. The new words will be used.')
 
@@ -128,19 +133,27 @@ if(wordBox.length === 0) {
 //********For future development I would like to add a section that allows users to add words they are learning for vocabulary review.
 
     gameWord = wordBox;
-}
+};
 
-// //creates a div for each letter in the random word
+console.log("here: " + gameWord);
+//creates a div for each letter in the random word
 console.log("Creates a div for each letter");
 for (var i = 0; i < gameWord.length; i++) {
     var emptyWord = document.querySelector(".wordContainer");
     var letterDiv = document.createElement("div");
-    letterDiv.classList.add(gameWord[i]);
-    letterDiv.insertAdjacentText("afterbegin", "_");
+    if (gameWord[i] === "-") {
+        letterDiv.classList.add("dash");
+        letterDiv.innerHTML = "-";
+    } else {
+        letterDiv.classList.add(gameWord[i]);
+        letterDiv.insertAdjacentText("afterbegin", "_");
+    };
     emptyWord.appendChild(letterDiv);
 };
 
+//Displays the correct guesses
 console.log("Replaces each div for the correct letter");
+
 document.onkeyup = function(event) {
 //Selects all of the divs with the matching class
     guess = document.querySelectorAll("." + event.key); 
@@ -177,6 +190,7 @@ document.onkeyup = function(event) {
         };
     };
 };
+});
 
 </script>
 </body>
