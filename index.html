@@ -9,11 +9,21 @@
     *{
         border: 1px solid black;  
     }
+
+    img{
+        
+    }
     .wordContainer, .wrongLetters{
         font-size: 100pt;
         display: flex;
         letter-spacing: 10pt;
     }
+
+    .picture{
+        display: table-cell;
+    }
+
+
     </style>
 </head>
 <body>
@@ -28,8 +38,18 @@
         <!-- add picture here -->
     </div>
     <br>
-    <div class="hint animal language">
+    <div class="picture">
         <!-- add the animal name or language here -->
+        <img src="assets/images/Bee.jpg" id="bee">
+        <img src="assets/images/Bird.jpg" id="Bird">
+        <img src="assets/images/Cat.jpg" id="Cat">
+        <img src="assets/images/Cockerel.jpg" id="cockerel">
+        <img src="assets/images/Dog.jpg" id="dog">
+        <img src="assets/images/Duck.jpg" id="duck">
+        <img src="assets/images/Frog.jpg" id="frog">
+        <img src="assets/images/Horse.jpg" id="horse">
+        <img src="assets/images/Mouse.jpg" id="mouse">
+        <img src="assets/images/Pig.jpg" id="pig">
     </div>
     <br>
     <div class="wordContainer">
@@ -191,6 +211,10 @@ document.onkeyup = function(event) {
     };
 };
 });
+
+addPicture = function() {
+    
+}
 
 </script>
 </body>
