@@ -15,3 +15,7 @@ Credit for the Images used goes to:
     Pig - Photo by Christopher Carson on Unsplash
 
     Background - Image by Gordon Johnson from Pixabay 
+
+Credit for the sound files:
+    http://soundbible.com/
+    https://www.findsounds.com/

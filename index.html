@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Word Guess Game</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
     <style>
     *{
         border: 1px solid black; 
@@ -63,7 +66,7 @@
         <button onclick="giveAnimalName()">Give animal name</button>
         <button onclick="giveLanguageName()">Give language</button>
         <button onclick="giveLetter()">Give letter</button>
-        <button>Play sound</button>
+        <button onclick="playSound()">Play sound</button>
         <button onclick="reload()">Play again</button>
     </div>
     <br>
@@ -74,80 +77,83 @@
     <div class="wrongLetters">
         <!-- add all of the wrong letters here -->
     </div>
- 
+    <br>
+    <h3>Here is a video explaining why a langauge decided animals make different sounds: </h3>
+    <iframe width="420" height="345" src="https://www.youtube.com/embed/Qq94Vcb6atU"></iframe>
+    
+  
+    <audio id="player">
+        <source src="assets/sounds/beeSound.mp3" id="beeSound">
+    </audio>
+    <button onclick="document.getElementById('player').play()">Play</button>
 
 
 <script>
 
 
 document.addEventListener("DOMContentLoaded", function(event) {
-console.log("start");
-//defines the initial components of the game
-var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-','ä','ö','ü'];
-var guesses = [];
-var remainingLetters = [];
+    console.log("start");
+    var bee = "assets/sounds/beeSound.mp3"
+    //defines the initial components of the game
+    var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-','ä','ö','ü'];
+    var guesses = [];
+    var remainingLetters = [];
 
-//defines the words used and hints
-var animalObjects = [
-    {
-        name: 'Bee',
-        sound: ["bzz", "bun", "sum", "vzz", "boong"],
-        language: ["English", "Japanese", "German", "Turkish", "Korean"]
-    },
-    {
-        name: 'Bird',
-        sound: ["Tweet", "Cui-Cui", "Pio-Pio", "Chun-Chun", "Pip-Pip", "Tjiep", "Jick-Jick", "TsiouTsiou", "Chip"],
-        language: ["English", "French", "Spanish", "Japanese", "Swedish", "Dutch", "Turkish", "Greek", "Italian"]
-    },
-    {
-        name: 'Cat',
-        sound: ["Meow", "Mjau", "Myau", "Miau", "Miao", "Meo", "Miaou", "Yaong", "Nyan", "Nau"],
-        language: ["English", "Swedish", "Russian", "Spanish", "Italian", "Vietnamese", "French", "Korean", "Japanese", "Estonian"]	
-    },
-    {
-        name: 'Cockerel',
-        sound: ["Cock-a-doodle-doo", "Kikiriki", "Cocorico", "Ko-ki-oh", "Kok-e-kok-ko"],
-        language: ["English", "Spanish", "French", "Korean", "Japanese"]
-    },
-    {
-        name: 'Dog',
-        sound: ["Woof", "Gav", "Waouh", "Guau", "Blaf", "Wan", "Voff", "Ham", "Bau", "Wong", "Hev", "Haap", "Guk", "Meong"],
-        language: ["English", "Russian", "French", "Spanish", "Dutch", "Japanese", "Icelandic", "Romanian", "Italian", "Cantonese", "Turkish", "Persian", "Indonesian", "Korean"]
-    },
-    {
-        name: 'Duck',
-        sound: ["Quack", "Rap", "Mac", "Hap", "Vak", "Coin", "Praaks"],
-        language: ["English", "Danish", "Romanian", "Hungarian", "Turkish", "French", "Estonian"]
-    },
-    {
-        name: 'Frog',
-        sound: ["Ribbit", "Cra-Cra", "Vrak", "Kwaak", "Kum-kum", "Gae-Gool", "OpOp", "GuoGuo", "Brekeke", "Kerokero"],
-        language: ["English", "Italian", "Turkish", "German", "Polish", "Korean", "Thai", "Chinese", "Hungarian", "Japanese"]
-    },
-    {
-        name: 'Horse',
-        sound: ["Neigh", "Vrinsk", "Hihiin", "Gnagg", "I-go-go", "I-haaa", "Nyihaha"],
-        language: ["English", "Danish", "Japanese", "Swedish", "Russian", "Polish", "Hungarian"]
-    },
-    {
-        name: 'Mouse',
-        sound: ["Squeak", "Piep", "Pip-pip", "Squitt", "Chuu", "Zi", "Jjik", "Cin"],
-        language: ["English", "Dutch", "Swedish", "Italian", "Japanese", "Mandarian", "Korean", "Hungarian"]
-    },
-    {
-        name: 'Pig',
-        sound: ["Oink", "Hunk", "Buu", "Grunz", "Knor", "Noff"],
-        language: ["English", "Albanian", "Japanese", "German", "Dutch", "Sweedish"]
-    }];
+    //defines the words used and hints
+    var animalObjects = [
+        {
+            name: 'Bee',
+            sound: ["bzz", "bun", "sum", "vzz", "boong"],
+            language: ["English", "Japanese", "German", "Turkish", "Korean"]
+        },
+        {
+            name: 'Bird',
+            sound: ["Tweet", "Cui-Cui", "Pio-Pio", "Chun-Chun", "Pip-Pip", "Tjiep", "Jick-Jick", "TsiouTsiou", "Chip"],
+            language: ["English", "French", "Spanish", "Japanese", "Swedish", "Dutch", "Turkish", "Greek", "Italian"]
+        },
+        {
+            name: 'Cat',
+            sound: ["Meow", "Mjau", "Myau", "Miau", "Miao", "Meo", "Miaou", "Yaong", "Nyan", "Nau"],
+            language: ["English", "Swedish", "Russian", "Spanish", "Italian", "Vietnamese", "French", "Korean", "Japanese", "Estonian"]	
+        },
+        {
+            name: 'Cockerel',
+            sound: ["Cock-a-doodle-doo", "Kikiriki", "Cocorico", "Ko-ki-oh", "Kok-e-kok-ko"],
+            language: ["English", "Spanish", "French", "Korean", "Japanese"]
+        },
+        {
+            name: 'Dog',
+            sound: ["Woof", "Gav", "Waouh", "Guau", "Blaf", "Wan", "Voff", "Ham", "Bau", "Wong", "Hev", "Haap", "Guk", "Meong"],
+            language: ["English", "Russian", "French", "Spanish", "Dutch", "Japanese", "Icelandic", "Romanian", "Italian", "Cantonese", "Turkish", "Persian", "Indonesian", "Korean"]
+        },
+        {
+            name: 'Duck',
+            sound: ["Quack", "Rap", "Mac", "Hap", "Vak", "Coin", "Praaks"],
+            language: ["English", "Danish", "Romanian", "Hungarian", "Turkish", "French", "Estonian"]
+        },
+        {
+            name: 'Frog',
+            sound: ["Ribbit", "Cra-Cra", "Vrak", "Kwaak", "Kum-kum", "Gae-Gool", "OpOp", "GuoGuo", "Brekeke", "Kerokero"],
+            language: ["English", "Italian", "Turkish", "German", "Polish", "Korean", "Thai", "Chinese", "Hungarian", "Japanese"]
+        },
+        {
+            name: 'Horse',
+            sound: ["Neigh", "Vrinsk", "Hihiin", "Gnagg", "I-go-go", "I-haaa", "Nyihaha"],
+            language: ["English", "Danish", "Japanese", "Swedish", "Russian", "Polish", "Hungarian"]
+        },
+        {
+            name: 'Mouse',
+            sound: ["Squeak", "Piep", "Pip-pip", "Squitt", "Chuu", "Zi", "Jjik", "Cin"],
+            language: ["English", "Dutch", "Swedish", "Italian", "Japanese", "Mandarian", "Korean", "Hungarian"]
+        },
+        {
+            name: 'Pig',
+            sound: ["Oink", "Hunk", "Buu", "Grunz", "Knor", "Noff"],
+            language: ["English", "Albanian", "Japanese", "German", "Dutch", "Sweedish"]
+        }];
 
-//allows the player to add new words
-var wordBox = [];
-var gameWord = [];
-
-//checks to see if the player had added words to help with vocabulary or if the default words will be used.
-if(wordBox.length === 0) {
-    console.log('There are not any words added to the game. Default words will be used.');
-//selects the animal and hints from the animalObject
+    //selects the animal and hints from the animalObject
+    var gameWord = [];
     var randomAnimal = Math.floor(Math.random()*animalObjects.length);
     var nameHint = animalObjects[randomAnimal].name;
     var randomSound = Math.floor(Math.random()*animalObjects[randomAnimal].sound.length);
@@ -159,123 +165,131 @@ if(wordBox.length === 0) {
     console.log('Word to guess: ' + defaultWord);
     var matchCase = defaultWord.toString().toLowerCase();
     var gameWord = matchCase;
-} else {
-    console.log('New words have been added. The new words will be used.')
 
-
-//********For future development I would like to add a section that allows users to add words they are learning for vocabulary review.
-
-    var gameWord = wordBox;
-};
-
-remainingLetters = gameWord;
-console.log('remaining Letters: ' + remainingLetters);
+    remainingLetters = gameWord;
+    console.log('remaining Letters: ' + remainingLetters);
 
 
 
-//creates a div for each letter in the random word
-console.log("Creates a div for each letter");
-for (var i = 0; i < gameWord.length; i++) {
-    var emptyWord = document.querySelector(".wordContainer");
-    var letterDiv = document.createElement("div");
-    if (gameWord[i] === "-") {
-        letterDiv.classList.add("dash");
-        letterDiv.innerHTML = "-";
-    } else {
-        letterDiv.classList.add(gameWord[i]);
-        letterDiv.insertAdjacentText("afterbegin", "_");
-    };
-    emptyWord.appendChild(letterDiv);
-};
-
-//Displays the correct guesses
-console.log("Replaces each div for the correct letter");
-
-document.onkeyup = function(event) {
-//Selects all of the divs with the matching class
-    guess = document.querySelectorAll("." + event.key); 
-//Prevents the same letter from being guessed twice
-    var message = document.querySelector(".messageBox");
-    message.innerHTML = "";
-
-    if(alphabet.indexOf(event.key) === -1) {    
-        message.insertAdjacentText("afterbegin", event.key + " has already been guessed or cannot be used. Please make another selection.");
-        return;
-    } else {
-//Changes the allowable guesses so the same letter cannot be guessed twice
-        function replaceGuess () {
-            var abc = '';
-            abc = alphabet.toString();
-            abc = abc.replace(event.key,"");
-            abc = abc.replace(",,",",");
-            alphabet = abc.split(",");
-            guesses.push(event.key);
-        };
-        replaceGuess();
-    };
-
-//Displays the wrong guesses in a seperate div
-    if (guess.length === 0) {
-        var badGuess = document.querySelector(".wrongLetters");
+    //creates a div for each letter in the random word
+    console.log("Creates a div for each letter");
+    for (var i = 0; i < gameWord.length; i++) {
+        var emptyWord = document.querySelector(".wordContainer");
         var letterDiv = document.createElement("div");
-        letterDiv.classList.add("badGuess");
-        letterDiv.insertAdjacentText("afterbegin", event.key);
-        badGuess.appendChild(letterDiv);
-    } else {
-//Changes the _ for the correct letter
-        for (var i = 0; i < guess.length; i++) {
-            guess[i].replaceWith(event.key);
-//Removes the correct letter and lets you know the remaining letters
-            function lettersRemain() {
-                removeLetter = remainingLetters.toString();
-                removeLetter = removeLetter.replace("-","");
-                removeLetter = removeLetter.replace(event.key,"");
-                remainingLetters = removeLetter.split("");
-            }
-            lettersRemain();
+        if (gameWord[i] === "-") {
+            letterDiv.classList.add("dash");
+            letterDiv.innerHTML = "-";
+        } else {
+            letterDiv.classList.add(gameWord[i]);
+            letterDiv.insertAdjacentText("afterbegin", "_");
         };
-        console.log('remaining letters: ' + remainingLetters);
-    }
-};
+        emptyWord.appendChild(letterDiv);
+    };
 
-//Gives the animal name
-giveAnimalName = function() {
-    var giveName = document.querySelector(".question");
-    if (giveName.classList.contains("addedLanguage") === true) {
-        giveName.innerHTML = "What sound does a " + nameHint + " make in "+ languageHint + "?"
-        giveName.classList.add("addedName");
-    } else {
-        giveName.innerHTML = "What sound does a " + nameHint + " make in (langauge)?"
-        giveName.classList.add("addedName");
+    //Displays the correct guesses
+    console.log("Replaces each div for the correct letter");
+
+    document.onkeyup = function(event) {
+    //Selects all of the divs with the matching class
+        guess = document.querySelectorAll("." + event.key); 
+    //Prevents the same letter from being guessed twice
+        var message = document.querySelector(".messageBox");
+        message.innerHTML = "";
+
+        if(alphabet.indexOf(event.key) === -1) {    
+            message.insertAdjacentText("afterbegin", event.key + " has already been guessed or cannot be used. Please make another selection.");
+            return;
+        } else {
+    //Changes the allowable guesses so the same letter cannot be guessed twice
+            function replaceGuess () {
+                var abc = '';
+                abc = alphabet.toString();
+                abc = abc.replace(event.key,"");
+                abc = abc.replace(",,",",");
+                alphabet = abc.split(",");
+                guesses.push(event.key);
+            };
+            replaceGuess();
+        };
+
+    //Displays the wrong guesses in a seperate div
+        if (guess.length === 0) {
+            var badGuess = document.querySelector(".wrongLetters");
+            var letterDiv = document.createElement("div");
+            letterDiv.classList.add("badGuess");
+            letterDiv.insertAdjacentText("afterbegin", event.key);
+            badGuess.appendChild(letterDiv);
+        } else {
+    //Changes the _ for the correct letter
+            for (var i = 0; i < guess.length; i++) {
+                guess[i].replaceWith(event.key);
+    //Removes the correct letter and lets you know the remaining letters
+                function lettersRemain() {
+                    removeLetter = remainingLetters.toString();
+                    removeLetter = removeLetter.replace("-","");
+                    removeLetter = removeLetter.replace(event.key,"");
+                    remainingLetters = removeLetter.split("");
+                }
+                lettersRemain();
+            };
+            console.log('remaining letters: ' + remainingLetters);
+        }
+    };
+
+    //Gives the animal name
+    giveAnimalName = function() {
+        var giveName = document.querySelector(".question");
+        if (giveName.classList.contains("addedLanguage") === true) {
+            giveName.innerHTML = "What sound does a " + nameHint + " make in "+ languageHint + "?"
+            giveName.classList.add("addedName");
+        } else {
+            giveName.innerHTML = "What sound does a " + nameHint + " make in (langauge)?"
+            giveName.classList.add("addedName");
+        }
+    //removes the other pictures and adds the correct animal picture
+        var img = document.createElement("img");
+        img.src = "assets/images/" + nameHint + ".jpg";
+        var findPicture = document.querySelector(".picture");
+        findPicture.innerHTML = '';
+        findPicture.appendChild(img);
+    };
+    //Gives the language
+    giveLanguageName = function() {
+        var giveLanguage = document.querySelector(".question");
+        if (giveLanguage.classList.contains("addedName") === true) {
+            giveLanguage.innerHTML = "What sound does a " + nameHint + " make in " + languageHint + "?"
+            giveLanguage.classList.add("addedLanguage");
+        } else {
+            giveLanguage.innerHTML = "What sound does a (animal) make in " + languageHint + "?"
+            giveLanguage.classList.add("addedLanguage");
+        }
+    };
+    //gives a letter
+    giveLetter = function() {
+        var randomLetter = Math.floor(Math.random()*remainingLetters.length);
+        var letterGive = document.querySelector(".messageBox");
+        letterGive.innerHTML = "Try " + remainingLetters[randomLetter];
     }
-//removes the other pictures and adds the correct animal picture
-    var img = document.createElement("img");
-    img.src = "assets/images/" + nameHint + ".jpg";
-    var findPicture = document.querySelector(".picture");
-    findPicture.innerHTML = '';
-    findPicture.appendChild(img);
-};
-//Gives the language
-giveLanguageName = function() {
-    var giveLanguage = document.querySelector(".question");
-    if (giveLanguage.classList.contains("addedName") === true) {
-        giveLanguage.innerHTML = "What sound does a " + nameHint + " make in " + languageHint + "?"
-        giveLanguage.classList.add("addedLanguage");
-    } else {
-        giveLanguage.innerHTML = "What sound does a (animal) make in " + languageHint + "?"
-        giveLanguage.classList.add("addedLanguage");
+
+    playSound = function() {
+        if (nameHint === 'Duck' || nameHint === 'Mouse' || nameHint === 'Frog' || nameHint === 'Pig') {
+            var soundFile = "assets/sounds/" + nameHint.toLowerCase() + "Sound.wav";
+        } else {
+            var soundFile = "assets/sounds/" + nameHint.toLowerCase() + "Sound.mp3";
+        }
+        console.log('Sound File: ' + soundFile);
+        var audioTag = document.getElementById('player');
+        var emptySourceTag = audioTag.innerHTML = '';
+        var sourceTag = document.createElement("source");
+        sourceTag.src = soundFile;
+        audioTag.appendChild(sourceTag);
+        audioTag.play();
     }
-};
-//gives a letter
-giveLetter = function() {
-    var randomLetter = Math.floor(Math.random()*remainingLetters.length);
-    var letterGive = document.querySelector(".messageBox");
-    letterGive.innerHTML = "Try " + remainingLetters[randomLetter];
-}
-//Restarts the game
-reload = function() {
-    location.reload();
-}
+
+    //Restarts the game
+    reload = function() {
+        location.reload();
+    }
 });
 
 
