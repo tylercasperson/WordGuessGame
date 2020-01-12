@@ -5,29 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Word Guess Game</title>
-    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css"> -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <style>
-    *{
-        border: 1px solid black; 
-    }
 
     body{
         background-image: url("assets/images/hello.png");
         background-size: 100%; 
     }
-
+    nav{
+        text-align: center;
+    }
+    iframe{
+        display:block;
+        margin: 0 auto;
+    }
     .normal{
         height: 50%;
     }
     .answer{
         height: 40%;
     }
-    .wordContainer, .wrongLetters{
-        font-size: 100pt;
+    .messageBox{
+        font-size: 20pt;
         display: flex;
+        justify-content: center;
+    }
+    .wordContainer, .wrongLetters{
+        font-size: 60pt;
+        display: inline-flex;
+        flex-direction: row;
+        margin: 0 auto;       
+        justify-content: center;
         letter-spacing: 10pt;
+        background-color: white;
+     
     }
     .picture{
         display: table-cell;
@@ -35,23 +49,36 @@
     .hidden{
         display: none;
     }
+    .space{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+    .wordBox{
+        display: table;
+        text-align: center;
+        margin: auto;
+        width: 50%;
+        background-color: white;
+    }
 
 
     </style>
 </head>
 <body>
+    <h3 class="question wordBox">What sound does a (animal) make in (langauge)?</h3>
+    <h3 class="wordBox">Pick a letter to find out. All umlauts (ä, ö and ü) have been changed to (a, o and u).</h3>
+    <br>
     <nav>
-        <div><a href="">Home</a></div>
-        <div><a href="">Add Words</a></div>
-        <div><a href="">Hint</a></div>
-        <div><a href="">Give Up</a></div>
+        <button type="button" class="btn btn-primary btn-lg" onclick="giveAnimalName()">Give animal name</button>
+        <button type="button" class="btn btn-primary btn-lg" onclick="giveLanguageName()">Give language</button>
+        <button type="button" class="btn btn-primary btn-lg" onclick="giveLetter()">Give letter</button>
+        <button type="button" class="btn btn-primary btn-lg" onclick="playSound()">Play sound</button>
+        <button type="button" class="btn btn-secondary btn-lg" onclick="reload()">Play again</button>
     </nav>
-    <br>
-    <div class="messageBox">
-        <!-- add picture here -->
-    </div>
-    <br>
-    <div class="picture">
+    <br class="space">
+    <div class="picture card-group card">
         <!-- add pictures here -->
         <img src="assets/images/Bee.jpg" class="normal displayBee" id="Bee">
         <img src="assets/images/Bird.jpg" class="normal displayBird" id="Bird">
@@ -75,27 +102,32 @@
         <img src="https://static.boredpanda.com/blog/wp-content/uuuploads/animal-sounds-in-different-languages-james-chapman/animal-sounds-in-different-languages-james-chapman-2.jpg" class="hidden answer Pig">
     </div>
     <br>
-    <h3 class="question">What sound does a (animal) make in (langauge)? Pick a letter to find out. All umlauts have been removed.</h3>
-    <br>
-    <div class="buttons">
-        <button onclick="giveAnimalName()">Give animal name</button>
-        <button onclick="giveLanguageName()">Give language</button>
-        <button onclick="giveLetter()">Give letter</button>
-        <button onclick="playSound()">Play sound</button>
-        <button onclick="reload()">Play again</button>
+    <div class="wordBox">
+        <div class="messageBox">
+            <!-- add picture here -->
+        </div>
     </div>
     <br>
-    <div class="wordContainer">
-        <!-- add a div for each letter here -->
+    <div class="container">
+        <div class="row">
+            <div class="wordContainer">
+            <!-- add a div for each letter here -->
+            </div>
+        </div>
     </div>
     <br>
-    <div class="wrongLetters">
-        <!-- add all of the wrong letters here -->
+    <div class="container">
+        <div class="row">
+            <div class="wrongLetters">
+            <!-- add all of the wrong letters here -->
+            </div>
+        </div>
     </div>
     <br>
-    <h3>Here is a video explaining why a langauge decided animals make different sounds: </h3>
+    <div class="wordBox">
+        <h3>Here is a video explaining why a langauge decides animals make different sounds: </h3>
+    </div>
     <iframe width="420" height="345" src="https://www.youtube.com/embed/Qq94Vcb6atU"></iframe>
-    
     <audio id="player"></audio>
     
 <script>
@@ -103,9 +135,8 @@
 
 document.addEventListener("DOMContentLoaded", function(event) {
     console.log("start");
-    var bee = "assets/sounds/beeSound.mp3"
     //defines the initial components of the game
-    var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-','ä','ö','ü'];
+    var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
     var guesses = [];
     var remainingLetters = [];
 
@@ -256,6 +287,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var winningPicture = pictureDiv.querySelector("." + nameHint).classList.remove("hidden");
             var singlePicture = pictureDiv.querySelector(".display" + nameHint).classList.remove("hidden");
             var removeNormal = pictureDiv.querySelector(".display" + nameHint).classList.remove("normal");
+            var spacingDiv = document.createElement("div");
+            pictureDiv.prepend(spacingDiv);
+            var spacingDiv = spacingDiv.classList.add("space");
+
+
             playSound();
         }
     };
@@ -297,9 +333,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     playSound = function() {
         if (nameHint === 'Duck' || nameHint === 'Mouse' || nameHint === 'Frog' || nameHint === 'Pig' || nameHint === 'Dog') {
-            var soundFile = "assets/sounds/" + nameHint.toLowerCase() + "Sound.wav";
+            var soundFile = "./assets/sounds/" + nameHint.toLowerCase() + "Sound.wav";
         } else {
-            var soundFile = "assets/sounds/" + nameHint.toLowerCase() + "Sound.mp3";
+            var soundFile = "./assets/sounds/" + nameHint.toLowerCase() + "Sound.mp3";
         }
         console.log('Sound File: ' + soundFile);
         var audioTag = document.getElementById('player');
