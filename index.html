@@ -18,17 +18,22 @@
         background-size: 100%; 
     }
 
-    img{
+    .normal{
         height: 50%;
+    }
+    .answer{
+        height: 40%;
     }
     .wordContainer, .wrongLetters{
         font-size: 100pt;
         display: flex;
         letter-spacing: 10pt;
     }
-
     .picture{
         display: table-cell;
+    }
+    .hidden{
+        display: none;
     }
 
 
@@ -48,19 +53,29 @@
     <br>
     <div class="picture">
         <!-- add pictures here -->
-        <img src="assets/images/Bee.jpg" id="Bee">
-        <img src="assets/images/Bird.jpg" id="Bird">
-        <img src="assets/images/Cat.jpg" id="Cat">
-        <img src="assets/images/Cockerel.jpg" id="Cockerel">
-        <img src="assets/images/Dog.jpg" id="Dog">
-        <img src="assets/images/Duck.jpg" id="Duck">
-        <img src="assets/images/Frog.jpg" id="Frog">
-        <img src="assets/images/Horse.jpg" id="Horse">
-        <img src="assets/images/Mouse.jpg" id="Mouse">
-        <img src="assets/images/Pig.jpg" id="Pig">
+        <img src="assets/images/Bee.jpg" class="normal displayBee" id="Bee">
+        <img src="assets/images/Bird.jpg" class="normal displayBird" id="Bird">
+        <img src="assets/images/Cat.jpg" class="normal displayCat" id="Cat">
+        <img src="assets/images/Cockerel.jpg" class="normal displayCockerel" id="Cockerel">
+        <img src="assets/images/Dog.jpg" class="normal displayDog" id="Dog">
+        <img src="assets/images/Duck.jpg" class="normal displayDuck" id="Duck">
+        <img src="assets/images/Frog.jpg" class="normal displayFrog" id="Frog">
+        <img src="assets/images/Horse.jpg" class="normal displayHorse" id="Horse">
+        <img src="assets/images/Mouse.jpg" class="normal displayMouse" id="Mouse">
+        <img src="assets/images/Pig.jpg" class="normal displayPig" id="Pig">
+        <img src="https://static.boredpanda.com/blog/wp-content/uuuploads/animal-sounds-in-different-languages-james-chapman/animal-sounds-in-different-languages-james-chapman-7.jpg" class="hidden answer Bee">
+        <img src="https://static.boredpanda.com/blog/wp-content/uuuploads/animal-sounds-in-different-languages-james-chapman/animal-sounds-in-different-languages-james-chapman-11.jpg" class="hidden answer Bird">
+        <img src="https://static.boredpanda.com/blog/wp-content/uuuploads/animal-sounds-in-different-languages-james-chapman/animal-sounds-in-different-languages-james-chapman-1-1.jpg" class="hidden answer Cat">
+        <img src="https://static.boredpanda.com/blog/wp-content/uuuploads/animal-sounds-in-different-languages-james-chapman/animal-sounds-in-different-languages-james-chapman-8.jpg" class="hidden answer Cockerel">
+        <img src="https://static.boredpanda.com/blog/wp-content/uuuploads/animal-sounds-in-different-languages-james-chapman/animal-sounds-in-different-languages-james-chapman-4.jpg" class="hidden answer Dog">
+        <img src="https://static.boredpanda.com/blog/wp-content/uuuploads/animal-sounds-in-different-languages-james-chapman/animal-sounds-in-different-languages-james-chapman-3.jpg" class="hidden answer Duck">
+        <img src="https://static.boredpanda.com/blog/wp-content/uuuploads/animal-sounds-in-different-languages-james-chapman/animal-sounds-in-different-languages-james-chapman-10.jpg" class="hidden answer Frog">
+        <img src="https://static.boredpanda.com/blog/wp-content/uuuploads/animal-sounds-in-different-languages-james-chapman/animal-sounds-in-different-languages-james-chapman-5.jpg" class="hidden answer Horse">
+        <img src="https://static.boredpanda.com/blog/wp-content/uuuploads/animal-sounds-in-different-languages-james-chapman/animal-sounds-in-different-languages-james-chapman-6.jpg" class="hidden answer Mouse">
+        <img src="https://static.boredpanda.com/blog/wp-content/uuuploads/animal-sounds-in-different-languages-james-chapman/animal-sounds-in-different-languages-james-chapman-2.jpg" class="hidden answer Pig">
     </div>
     <br>
-    <h3 class="question">What sound does a (animal) make in (langauge)?</h3>
+    <h3 class="question">What sound does a (animal) make in (langauge)? Pick a letter to find out. All umlauts have been removed.</h3>
     <br>
     <div class="buttons">
         <button onclick="giveAnimalName()">Give animal name</button>
@@ -81,13 +96,8 @@
     <h3>Here is a video explaining why a langauge decided animals make different sounds: </h3>
     <iframe width="420" height="345" src="https://www.youtube.com/embed/Qq94Vcb6atU"></iframe>
     
-  
-    <audio id="player">
-        <source src="assets/sounds/beeSound.mp3" id="beeSound">
-    </audio>
-    <button onclick="document.getElementById('player').play()">Play</button>
-
-
+    <audio id="player"></audio>
+    
 <script>
 
 
@@ -169,8 +179,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     remainingLetters = gameWord;
     console.log('remaining Letters: ' + remainingLetters);
 
-
-
     //creates a div for each letter in the random word
     console.log("Creates a div for each letter");
     for (var i = 0; i < gameWord.length; i++) {
@@ -228,11 +236,27 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     removeLetter = remainingLetters.toString();
                     removeLetter = removeLetter.replace("-","");
                     removeLetter = removeLetter.replace(event.key,"");
+                    removeLetter = removeLetter.replace(/,/g,"");
                     remainingLetters = removeLetter.split("");
                 }
                 lettersRemain();
             };
             console.log('remaining letters: ' + remainingLetters);
+            console.log(remainingLetters);
+        }
+
+        if (remainingLetters.length == 0) {
+            message.innerHTML = "You won!!!";
+            var pictureDiv = document.querySelector(".picture");
+            var notWinningPicture = pictureDiv.getElementsByClassName("normal");
+            console.log(notWinningPicture);
+            for (var i=0; i < notWinningPicture.length; i++) {
+                notWinningPicture[i].classList.add("hidden");
+            }
+            var winningPicture = pictureDiv.querySelector("." + nameHint).classList.remove("hidden");
+            var singlePicture = pictureDiv.querySelector(".display" + nameHint).classList.remove("hidden");
+            var removeNormal = pictureDiv.querySelector(".display" + nameHint).classList.remove("normal");
+            playSound();
         }
     };
 
@@ -272,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     playSound = function() {
-        if (nameHint === 'Duck' || nameHint === 'Mouse' || nameHint === 'Frog' || nameHint === 'Pig') {
+        if (nameHint === 'Duck' || nameHint === 'Mouse' || nameHint === 'Frog' || nameHint === 'Pig' || nameHint === 'Dog') {
             var soundFile = "assets/sounds/" + nameHint.toLowerCase() + "Sound.wav";
         } else {
             var soundFile = "assets/sounds/" + nameHint.toLowerCase() + "Sound.mp3";
