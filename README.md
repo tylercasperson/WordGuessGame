@@ -1,10 +1,10 @@
-# WordGuessGame
-#Animal Onomatopoeia
-
-###This is a word guess game for animal sounds in various languages. I have always enjoyed realizing how something so simple can be viewed differently. The sounds expressed in a langauge are connected to the orthography. I hope you enjoy this animal onomatopoeia.
+# WordGuessGame - Animal Onomatopoeia
 
 
-###Credit for the Images used goes to:
+### This is a word guess game for animal sounds in various languages. I have always enjoyed realizing how something so simple can be viewed differently. The sounds expressed in a langauge are connected to the orthography. I hope you enjoy this animal onomatopoeia.
+
+
+### Credit for the Images used goes to:
 *    Bee - Photo by Roberto Lopez on Unsplash
 *    Bird - Photo by David Clode on Unsplash
 *    Cat - Photo by Max Baskakov on Unsplash
@@ -18,6 +18,6 @@
 
 *    Background - Image by Gordon Johnson from Pixabay 
 
-###Credit for the sound files:
+### Credit for the sound files:
 *    http://soundbible.com/
 *    https://www.findsounds.com/
