@@ -1,0 +1,58 @@
+body{
+    background-image: url("../images/hello.png");
+    background-size: 100%; 
+}
+nav{
+    text-align: center;
+}
+iframe{
+    display:block;
+    margin: 0 auto;
+}
+img{
+    height: 10%;
+    width: 10%;
+}
+.normal{
+    height: 50%;
+}
+.answer{
+    height: 40%;
+}
+.messageBox{
+    font-size: 20pt;
+    display: flex;
+    justify-content: center;
+}
+.wordContainer, .wrongLetters{
+    font-size: 60pt;
+    display: inline-flex;
+    flex-direction: row;
+    margin: 0 auto;       
+    justify-content: center;
+    letter-spacing: 10pt;
+    background-color: white;
+}
+.picture{
+    display: flex;
+    justify-content: center;
+    background-color: none;
+    text-align: center;
+}
+.hidden{
+    display: none;
+}
+.space{
+    display: block;
+}
+.wordBox{
+    display: table;
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    background-color: white;
+}
+.winningPicture{
+    height: 100%;
+    width: 100%;
+}

@@ -1,5 +1,6 @@
 # WordGuessGame
 
+This is a word guess game for animal sounds in various languages. I have always enjoyed realizing how something so simple can be viewed differently. The sounds expressed in a langauge are connected to the orthography. I hope you enjoy this animal onomatopoeia.
 
 
 Credit for the Images used goes to:
